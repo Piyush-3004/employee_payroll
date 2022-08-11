@@ -1,24 +1,29 @@
 package com.blz.EmployeePayroll.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.blz.EmployeePayroll.Model.EmployeePayrollModel;
 import com.blz.EmployeePayroll.Service.IEmployeePayrollService;
+
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {
-	
+
 	@Autowired
 	private IEmployeePayrollService employeePayrollService;
 
 	@GetMapping("")
 	public String start() {
+
 		return employeePayrollService.start();
 	}
 
 	@GetMapping("/getEmployee/{id}")
 	public EmployeePayrollModel getEmployee(@PathVariable long id) {
+
 		return employeePayrollService.getEmployeeById(id);
 	}
 
@@ -27,20 +32,30 @@ public class EmployeePayrollController {
 		EmployeePayrollModel emp1 = new EmployeePayrollModel();
 		emp1.setName(emp.getName());
 		emp1.setSalary(emp.getSalary());
-		   
+
 		return employeePayrollService.createEmp(emp1);
 	}
-	
+
+	@GetMapping("/getAll")
+	public List<EmployeePayrollModel> getAll(){
+		return employeePayrollService.getAll();
+	}
 	@PutMapping("/update/{id}")
 	public EmployeePayrollModel update(@RequestBody EmployeePayrollModel emp, @PathVariable long id) {
+
+		return employeePayrollService.update(emp, id);
+	}
 	
-		return employeePayrollService.update(emp,id);
+	@DeleteMapping("/deleteFromList/{id}")
+	public void deleteFromList(@PathVariable long id) {
+		employeePayrollService.deleteFromList(id);
+
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public EmployeePayrollModel delete( @PathVariable long id) {
+	public EmployeePayrollModel delete(@PathVariable long id) {
 		return employeePayrollService.delete(id);
+
 	}
-	
-	
+
 }

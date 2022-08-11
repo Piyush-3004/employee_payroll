@@ -1,5 +1,7 @@
 package com.blz.EmployeePayroll.Service;
 
+import java.util.List;
+
 import com.blz.EmployeePayroll.Model.EmployeePayrollModel;
 
 public interface IEmployeePayrollService {
@@ -13,5 +15,9 @@ public interface IEmployeePayrollService {
 	EmployeePayrollModel update(EmployeePayrollModel emp, long id);
 
 	EmployeePayrollModel delete(long id);
+
+	void deleteFromList(long id);
+
+	List<EmployeePayrollModel> getAll();
 
 }
