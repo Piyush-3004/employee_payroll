@@ -8,10 +8,10 @@ public class MethodArgumentNotValidException extends RuntimeException{
 	private int statusCode;
 	private String statusMessage;
 
-	public MethodArgumentNotValidException(int statusCode, String statusMessage) {
-		super(statusMessage);
-		this.statusCode = statusCode;
-		this.statusMessage = statusMessage;
+	public MethodArgumentNotValidException(MethodArgumentNotValidException status) {
+		super(status);
+	//	this.statusCode = status.getCause()
+		this.statusMessage = status.getMessage();
 	}
 
 }
