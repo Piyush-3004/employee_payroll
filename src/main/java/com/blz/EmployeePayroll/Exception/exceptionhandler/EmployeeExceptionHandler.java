@@ -17,5 +17,15 @@ public class EmployeeExceptionHandler {
         response.setMessage(he.getMessage());
         return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-    
 }
+	
+//@ControllerAdvice
+//public class MethodArgumentNotValidException {
+//	@ExceptionHandler(MethodArgumentNotValidException.class)
+//		public ResponseEntity<Response> handleHiringException(EmployeeNotFoundException he){
+//			Response response = new Response();
+//	        response.setErrorCode(400);
+//	        response.setMessage(he.getMessage());
+//	        return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+//		
+//}

@@ -8,13 +8,16 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 
 @Component
 public class MailService {
-
+	@Autowired
+	//private JavaMailSender sender ;
     public static void send(String toEmail, String subject, String body)
     {
         final String fromEmail = System.getenv("Email");

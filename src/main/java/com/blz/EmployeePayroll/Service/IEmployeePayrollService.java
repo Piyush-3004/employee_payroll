@@ -14,19 +14,31 @@ public interface IEmployeePayrollService {
 
 //	EmployeePayrollModel createEmp(EmployeePayrollModel emp);
 
-	EmployeePayrollModel update(EmployeePayrollModel emp, long id);
+//	EmployeePayrollModel update(EmployeePayrollModel emp, long id);
 
 	EmployeePayrollModel delete(long id);
 
 	Response login(String email, String pwd);
 
-	List<EmployeePayrollModel> getlist();
+	EmployeePayrollModel createEmp(EmployeePayrollDto emp, Long department_id);
 
-	EmployeePayrollModel createEmp(EmployeePayrollDto emp);
+	void sendMail(long id);
 
-	EmployeePayrollModel getempbytoken(String token);
+	EmployeePayrollModel getEmpByToken(String token);
 
-	void sendmail(long id);
+	List<EmployeePayrollModel> getList();
+
+	EmployeePayrollModel updateWithToken(String token);
+
+	EmployeePayrollModel deleteWithToken(String token);
+
+//	EmployeePayrollModel update(EmployeePayrollModel emp, long empId, long deptId);
+
+	EmployeePayrollModel update(EmployeePayrollDto emp, long empId, long deptId);
+
+	EmployeePayrollModel updateDepartmentWithToken(EmployeePayrollDto emp, String token, long deptId);
+
+		List<EmployeePayrollModel> getByContent(String content);
 
 
 
