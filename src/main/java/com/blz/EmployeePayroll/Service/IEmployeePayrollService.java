@@ -18,19 +18,19 @@ public interface IEmployeePayrollService {
 
 	List<EmployeePayrollModel> getList();
 
+	EmployeePayrollModel getEmployeeById(long id);
+
 	EmployeePayrollModel getEmpByToken(String token);
 
 	List<EmployeePayrollModel> getByContent(String content);
 
-	EmployeePayrollModel getEmployeeById(long id);
+	EmployeePayrollModel setDepartment(long empId, long deptId);
 
-	EmployeePayrollModel update(long empId, long deptId);
+	EmployeePayrollModel updateWithToken(EmployeePayrollDto employeePayrollDto, String token);
 
-	EmployeePayrollModel updateWithToken(String token);
-
-	EmployeePayrollModel updateDepartmentWithToken(EmployeePayrollDto emp, String token, long deptId);
+	EmployeePayrollModel setDepartmentToToken(String token, long deptId);
 
 	EmployeePayrollModel delete(long id);
-
+	
 	EmployeePayrollModel deleteWithToken(String token);
 }

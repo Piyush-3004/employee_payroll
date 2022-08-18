@@ -15,18 +15,24 @@ public class DepartmentController {
     @Autowired
     IDepartmentService departmentService;
     
-    @GetMapping("/getdepartments")
+    @PostMapping("create")
+    public Department addDepartment(@RequestBody DepartmentDto departmentDto){
+    	return departmentService.addDepartment(departmentDto);
+    }
+
+    @GetMapping("/read")
     public List<Department> getDepartments(){
     	return departmentService.getDepartments();
     }
     
-    @PostMapping("adddepartment")
-    public Department addDepartment(@RequestBody DepartmentDto departmentDto){
-        return departmentService.addDepartment(departmentDto);
-    }
     
-    @GetMapping("/getdepartmentbytoken")
+    @GetMapping("/readbytoken")
     public Department getDepartmentByToken(@RequestHeader String token) {
     	return departmentService.getDepartmentByToken(token);
+    }
+    
+    @PutMapping("/updatetoken/{id}")
+    public Department updateDepartment(@RequestParam long id , @RequestBody DepartmentDto departmentDto) {
+    	return departmentService.update(id,departmentDto);
     }
 }

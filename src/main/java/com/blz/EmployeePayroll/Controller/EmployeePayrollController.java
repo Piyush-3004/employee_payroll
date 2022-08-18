@@ -56,32 +56,23 @@ public class EmployeePayrollController {
 
 	}
 	
-
-//	@PutMapping("/update/{id}")
-//	public EmployeePayrollModel update(@RequestBody EmployeePayrollModel emp, @PathVariable long id) {
-//		return employeePayrollService.update(emp, id);
-//
-//	}
-	//update Department for User
-	@PutMapping("/update/{empId}")
+	@PutMapping("/setdepartment")
 	public EmployeePayrollModel updateDepartment(@PathVariable long empId,@RequestParam long deptId) {
-		return employeePayrollService.update(empId,deptId);
+		return employeePayrollService.setDepartment(empId,deptId);
 
 	}
 	
-	@PutMapping("/updatedepartmentwithtoken")
-	public EmployeePayrollModel updateDepartmentWithToken(@RequestBody EmployeePayrollDto emp, @RequestHeader String token,@RequestParam long deptId) {
-		return employeePayrollService.updateDepartmentWithToken(emp, token,deptId);
+	@PutMapping("/setdepartmenttotoken")
+	public EmployeePayrollModel setDepartment(@RequestHeader String token,@RequestParam long deptId) {
+		return employeePayrollService.setDepartmentToToken(token,deptId);
 
 	}
-
 	
 	@PutMapping("/updatewithtoken")
-	public EmployeePayrollModel updateWithToken(@RequestHeader String token) {
-		return employeePayrollService.updateWithToken(token);
+	public EmployeePayrollModel updateWithToken(@RequestBody EmployeePayrollDto employeePayrollDto, @RequestHeader String token) {
+		return employeePayrollService.updateWithToken(employeePayrollDto,token);
 
-	}
-	
+	}	
 	@DeleteMapping("/delete/{id}")
 	public EmployeePayrollModel delete(@PathVariable long id) {
 		return employeePayrollService.delete(id);

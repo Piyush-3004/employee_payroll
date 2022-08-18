@@ -74,11 +74,11 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 
 	@Override
 	public void sendMail(long id) {
-		Optional<EmployeePayrollModel> emp = repo.findById(id);
-		if(emp.isPresent()) {
+		Optional<EmployeePayrollModel> isEployeePresent = repo.findById(id);
+		if(isEployeePresent.isPresent()) {
 			String body="Employee is added succesfully with employeeId ";
 			String subject="Employee Registration Succesfull";
-			mailService.send("piyushp054@gmail.com",subject,body);
+			mailService.send(isEployeePresent.get().getEmailId(),subject,body);
 		}else
 			throw new EmployeeNotFoundException(400, "No Employee Present with id :"+id);
 	}
@@ -106,14 +106,10 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 	public EmployeePayrollModel getEmpByToken(String token) {
 		Long empId=tokenUtil.decodeToken(token);
 		Optional<EmployeePayrollModel> isEmployeePresent=repo.findById(empId);
-		if(isEmployeePresent.isPresent()) {
-			List<EmployeePayrollModel> getallemployee = repo.findAll();
-			if (getallemployee.size() > 0)
-				return isEmployeePresent.get();
-			else
-				throw new EmployeeNotFoundException(400, "No DATA Present");
-		}
-		throw new EmployeeNotFoundException(400,"Employee Not found");
+		if(isEmployeePresent.isPresent()) 
+			return isEmployeePresent.get();
+		else
+			throw new EmployeeNotFoundException(400,"Employee Not found");
 	}
 
 	@Override
@@ -130,7 +126,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 	}
 	
 	@Override
-	public EmployeePayrollModel update(long empId,long deptId) {
+	public EmployeePayrollModel setDepartment(long empId,long deptId) {
 		Optional<EmployeePayrollModel> isEmployeePresent = repo.findById(empId);
 		if(isEmployeePresent.isPresent()) {
 			Optional<Department> isDeptPresent = deptRepo.findById(deptId); 
@@ -145,39 +141,42 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 	}
 
 	@Override
-	public EmployeePayrollModel updateWithToken(String token) {
+	public EmployeePayrollModel updateWithToken(EmployeePayrollDto employeePayrollDto,String token) {
 		Long empId=tokenUtil.decodeToken(token);
 		Optional<EmployeePayrollModel> isEmpPresent = repo.findById(empId);
 		if(isEmpPresent.isPresent()) {
-			List<EmployeePayrollModel> getallemployee = repo.findAll();
-			if (getallemployee.size() > 0)
-				return isEmpPresent.get();
-			else
-				throw new EmployeeNotFoundException(400, "No DATA Present");
+			isEmpPresent.get().setName(employeePayrollDto.getName());
+			isEmpPresent.get().setEmailId(employeePayrollDto.getEmailId());
+			isEmpPresent.get().setPwd(employeePayrollDto.getPwd());
+			isEmpPresent.get().setSalary(employeePayrollDto.getSalary());
+			return isEmpPresent.get();
 		}
-		throw new EmployeeNotFoundException(400,"Employee Not found");
-	}
+		else
+			throw new EmployeeNotFoundException(400, "No DATA Present");
+		}
 
 	@Override
-	public EmployeePayrollModel updateDepartmentWithToken(EmployeePayrollDto emp, String token, long deptId) {
+	public EmployeePayrollModel setDepartmentToToken(String token, long deptId) {
 		Long empId=tokenUtil.decodeToken(token);
-		Optional<Department> isDeptPresent = deptRepo.findById(deptId); 
-		Optional<EmployeePayrollModel> emp2 = repo.findById(empId);
-		emp2.get().setName(emp.getName());
-		emp2.get().setSalary(emp.getSalary());
-		emp2.get().setEmailId(emp.getEmailId());
-		emp2.get().setPwd(emp.getPwd());
-		emp2.get().setDepartment(isDeptPresent.get());
-		repo.save(emp2.get());
-		return emp2.get();
+		Optional<EmployeePayrollModel> isEmployeePresent = repo.findById(empId);
+		if(isEmployeePresent.isPresent()) {
+			Optional<Department> isDeptPresent = deptRepo.findById(deptId); 
+			if(isDeptPresent.isPresent()) {
+				isEmployeePresent.get().setDepartment(isDeptPresent.get());
+				repo.save(isEmployeePresent.get());
+				return isEmployeePresent.get();
+			}else
+				throw new EmployeeNotFoundException(400, "Department not present with id : "+deptId );
+		}else
+			throw new EmployeeNotFoundException(400, "Employee Not Present with id :"+empId );
 	}
 
 	@Override
 	public EmployeePayrollModel delete(long id) {
 		Optional<EmployeePayrollModel> emp = repo.findById(id);
 		if(emp.isPresent()) {
-		repo.delete(emp.get());
-		return emp.get();
+			repo.delete(emp.get());
+			return emp.get();
 		}
 		else
 			throw new EmployeeNotFoundException(400, "No DATA Present");

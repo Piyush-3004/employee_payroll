@@ -12,5 +12,5 @@ public interface IDepartmentService {
 
 	List<Department> getDepartments();
 
-	Department update(String token, DepartmentDto departmentDto);
+	Department update(long id, DepartmentDto departmentDto);
 }
