@@ -2,6 +2,8 @@ package com.blz.EmployeePayroll.Controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,11 @@ public class EmployeePayrollController {
 	@Autowired
 	private IEmployeePayrollService employeePayrollService;
 
+	@PostMapping("/create")
+	public EmployeePayrollModel create(@Valid @RequestBody EmployeePayrollDto emp ,@RequestParam Long department_id ) {
+		return employeePayrollService.createEmp(emp,department_id);
+	}
+	
 	@GetMapping("/getlist")
 	public List<EmployeePayrollModel> getList() {
 		return employeePayrollService.getList();
@@ -49,10 +56,6 @@ public class EmployeePayrollController {
 
 	}
 	
-	@PostMapping("/create")
-	public EmployeePayrollModel create(@RequestBody EmployeePayrollDto emp ,@RequestParam Long department_id ) {
-		return employeePayrollService.createEmp(emp,department_id);
-	}
 
 //	@PutMapping("/update/{id}")
 //	public EmployeePayrollModel update(@RequestBody EmployeePayrollModel emp, @PathVariable long id) {
