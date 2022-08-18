@@ -11,4 +11,6 @@ public interface IDepartmentService {
 	Department getDepartmentByToken(String token);
 
 	List<Department> getDepartments();
+
+	Department update(String token, DepartmentDto departmentDto);
 }

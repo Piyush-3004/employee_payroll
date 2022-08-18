@@ -12,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.mail.*;
 
 @Component
+@Slf4j
 public class MailService {
 	@Autowired
 	//private JavaMailSender sender ;
@@ -54,7 +57,7 @@ public class MailService {
             msg.setSentDate(new Date());
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
             Transport.send(msg);
-            System.out.println("Email Sent Successfully........."); }
+            log.info("Email Sent Successfully........."); }
         catch (Exception e)
         {
             e.printStackTrace();

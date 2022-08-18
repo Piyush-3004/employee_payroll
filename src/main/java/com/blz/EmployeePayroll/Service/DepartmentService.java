@@ -30,6 +30,7 @@ public class DepartmentService implements IDepartmentService{
 	@Autowired
 	TokenUtil tokenUtil;
 	
+	
 	 @Override
 	    public Department addDepartment(DepartmentDto departmentDto) {
 	        Department department=new Department();
@@ -40,22 +41,36 @@ public class DepartmentService implements IDepartmentService{
 	        return department;
 	    }
 
-	@Override
-	public Department getDepartmentByToken(String token) {
-		long id = tokenUtil.decodeToken(token);
-		Optional<EmployeePayrollModel> isEmpPresent = empRepo.findById(id);
-		if(isEmpPresent.isPresent()) {
-			return isEmpPresent.get().getDepartment();
-		}
-		throw new EmployeeNotFoundException(100,"no data");
-	}
+	 @Override
+	 public Department getDepartmentByToken(String token) {
+		 long id = tokenUtil.decodeToken(token);
+		 Optional<EmployeePayrollModel> isEmpPresent = empRepo.findById(id);
+		 if(isEmpPresent.isPresent()) {
+			 return isEmpPresent.get().getDepartment();
+		 }
+		 throw new EmployeeNotFoundException(100,"no data");
+	 }
+	 
+	 @Override
+	 public List<Department> getDepartments() {
+		 List<Department> list = departmentRepo.findAll();
+		 if(!list.isEmpty())
+			 return list;
+		 log.info("No Department Present");
+		 return null;
+	 }
 
-	@Override
-	public List<Department> getDepartments() {
-		List<Department> list = departmentRepo.findAll();
-		if(!list.isEmpty())
-			return list;
-		log.info("No Department Present");
-		return null;
-	}
+	 public Department update(String token, DepartmentDto DepartmentDto) {
+		 long userId = tokenUtil.decodeToken(token);
+		 Optional<EmployeePayrollModel> isEmpPresent = empRepo.findById(userId);
+		 if(isEmpPresent.isPresent()) {
+			 Optional<Department> isDeptPresent = empRepo.findByDepartment(isEmpPresent.get().getDepartment());			
+			 isDeptPresent.get().setDepartmentName(DepartmentDto.getDepartmentName());
+			 isDeptPresent.get().setDepartmentDescription(DepartmentDto.getDepartmentDesc());
+			 departmentRepo.save(isDeptPresent.get());
+			 return isDeptPresent.get();
+		 }
+		 return null;
+	 }
+
 }

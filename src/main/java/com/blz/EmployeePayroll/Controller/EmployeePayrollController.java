@@ -34,12 +34,6 @@ public class EmployeePayrollController {
 		return employeePayrollService.login(mail,pwd);
 	}
 	
-    @GetMapping("/sortbyfirstname")
-    public List<EmployeePayrollModel> sort(@PathVariable String content){
-    	return employeePayrollService.getByContent(content);
-    }
-
-
 	@GetMapping("/getempbytoken")
 	public EmployeePayrollModel getEmpByToken(@RequestHeader String token){
 		return employeePayrollService.getEmpByToken(token);
@@ -49,6 +43,12 @@ public class EmployeePayrollController {
 	public EmployeePayrollModel getEmployee(@PathVariable long id) {
 		return employeePayrollService.getEmployeeById(id);
 	}
+
+	@GetMapping("/sortbyfirstname")
+    public List<EmployeePayrollModel> sort(@PathVariable String content){
+    	return employeePayrollService.getByContent(content);
+    }
+
 	
 	@GetMapping("/sendmail/{id}")
 	public void sendMail(@PathVariable long id) {
@@ -62,10 +62,10 @@ public class EmployeePayrollController {
 //		return employeePayrollService.update(emp, id);
 //
 //	}
-	
+	//update Department for User
 	@PutMapping("/update/{empId}")
-	public EmployeePayrollModel updateDepartment(@RequestBody EmployeePayrollDto emp, @PathVariable long empId,@RequestParam long deptId) {
-		return employeePayrollService.update(emp, empId,deptId);
+	public EmployeePayrollModel updateDepartment(@PathVariable long empId,@RequestParam long deptId) {
+		return employeePayrollService.update(empId,deptId);
 
 	}
 	

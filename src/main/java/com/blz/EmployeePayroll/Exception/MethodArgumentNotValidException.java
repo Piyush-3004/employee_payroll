@@ -2,6 +2,9 @@ package com.blz.EmployeePayroll.Exception;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.blz.EmployeePayroll.Model.EmployeePayrollModel;
+import com.blz.EmployeePayroll.Util.Response;
+
 @ResponseStatus
 public class MethodArgumentNotValidException extends RuntimeException{
 
@@ -12,6 +15,11 @@ public class MethodArgumentNotValidException extends RuntimeException{
 		super(status);
 	//	this.statusCode = status.getCause()
 		this.statusMessage = status.getMessage();
+	}
+
+	public MethodArgumentNotValidException(int i, String string, Response response) {
+		this.statusCode=i;
+		this.statusMessage=string;
 	}
 
 }
